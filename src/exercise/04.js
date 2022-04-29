@@ -4,12 +4,16 @@
 import * as React from 'react'
 import {Switch} from '../switch'
 
+function callAll(...fns) {
+  return (...args) => fns.map(fn => fn?.(...args))
+}
+
 function useToggle() {
   const [on, setOn] = React.useState(false)
   const toggle = () => setOn(!on)
 
-  const getTogglerProps = props => {
-    const defaultProps = {'aria-pressed': on, onClick: toggle}
+  const getTogglerProps = ({onClick, ...props} = {}) => {
+    const defaultProps = {'aria-pressed': on, onClick: callAll(toggle, onClick)}
     return {...defaultProps, ...props}
   }
 

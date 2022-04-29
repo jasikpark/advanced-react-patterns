@@ -15,9 +15,14 @@ function Toggle({children}) {
   // 📜 https://reactjs.org/docs/react-api.html#reactchildren
   // 📜 https://reactjs.org/docs/react-api.html#cloneelement
   const processedChildren = React.Children.map(children, child => {
-    if ([ToggleOn, ToggleOff, ToggleButton].includes(child.type)) {
+    if (typeof child.type !== 'string') {
       const clonedChild = React.cloneElement(child, {on, toggle})
-
+      console.log(
+        `ToggleOn ${
+          ToggleOn === child.type ? 'does' : 'doesn&apos;t'
+        } equal child.type`,
+        child,
+      )
       return clonedChild
     }
     return child
